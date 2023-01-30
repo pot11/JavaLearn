@@ -52,4 +52,77 @@ public class BinarySortTree {
         }
         System.out.println(node);//输出父节点
     }
+
+    /**
+     * 前序遍历查找
+     */
+    public Node preOrderSearch(Node node){
+        Node resNode = null;
+        //比较当前节点编号
+        System.out.println("进入前序遍历比较");//先比较父节点
+        if (node.getNo() == 5){
+            resNode = node;
+        }
+        if (resNode != null){
+            return resNode;
+        }
+        if (node.getLeft() != null){//递归向左前序遍历
+            resNode = preOrderSearch(node.getLeft());
+        }
+        if (resNode != null){
+            return resNode;
+        }
+        if (node.getRight() != null){//递归向右前序遍历
+            resNode = preOrderSearch(node.getRight());
+        }
+        return resNode;
+    }
+
+    /**
+     * 中序遍历查找
+     */
+    public Node infixOrderSearch(Node node){
+        Node resNode = null;
+        if (node.getLeft() != null){//递归向左前序遍历
+            resNode = infixOrderSearch(node.getLeft());
+        }
+        if (resNode != null){
+            return resNode;
+        }
+        System.out.println("进入前序遍历比较");//比较父节点
+        if (node.getNo() == 5){
+            resNode = node;
+        }
+        if (resNode != null){
+            return resNode;
+        }
+        if (node.getRight() != null){//递归向右前序遍历
+            resNode = infixOrderSearch(node.getRight());
+        }
+        return resNode;
+    }
+
+    /**
+     * 后序遍历查找
+     */
+    public Node postOrderSearch(Node node){
+        Node resNode = null;
+        if (node.getLeft() != null){//递归向左前序遍历
+            resNode = postOrderSearch(node.getLeft());
+        }
+        if (resNode != null){
+            return resNode;
+        }
+        if (node.getRight() != null){//递归向右前序遍历
+            resNode = postOrderSearch(node.getRight());
+        }
+        if (resNode != null){
+            return resNode;
+        }
+        System.out.println("进入前序遍历比较");//比较父节点
+        if (node.getNo() == 5){
+            resNode = node;
+        }
+        return resNode;
+    }
 }
