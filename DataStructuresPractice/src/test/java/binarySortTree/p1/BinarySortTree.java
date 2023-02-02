@@ -125,4 +125,29 @@ public class BinarySortTree {
         }
         return resNode;
     }
+
+    /**
+     * 删除节点
+     */
+    public Node delNode(Node node){
+        Node resNode = null;
+        //如果当前结点的左子节点不为空，并且左子节点就是要删除节点，将this.left== null;并且返回（结束递归删除）
+        if (node.getLeft() != null && node.getLeft().getNo() == 5){
+            node.setLeft(null);
+            return node;
+        }
+        //如果当前结点的右子节点不为空，并且右子节点就是要删除节点，将this.right== null;并且返回（结束递归删除）
+        if (node.getRight() != null && node.getRight().getNo() == 5){
+            node.setRight(null);
+            return node;
+        }
+        if (node.getLeft() != null){//递归向左子树递归删除
+            resNode = delNode(node.getLeft());
+        }
+        if (node.getRight() != null){//递归向左子树递归删除
+            resNode = delNode(node.getRight());
+        }
+        return resNode;
+    }
+
 }
