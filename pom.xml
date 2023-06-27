@@ -14,6 +14,7 @@
         <module>DataStructures</module>
         <module>DataStructures</module>
         <module>DataStructuresPractice</module>
+        <module>SpringLearn</module>
     </modules>
 
     <dependencyManagement>
@@ -33,6 +34,13 @@
                 <artifactId>fastjson</artifactId>
                 <version>${com.alibaba.fastjson.version}</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${org.mybatis.mybatis.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -40,6 +48,7 @@
         <junit.version>4.13.2</junit.version>
         <Apache.commons.version>3.2.2</Apache.commons.version>
         <com.alibaba.fastjson.version>1.2.83</com.alibaba.fastjson.version>
+        <org.mybatis.mybatis.version>3.4.6</org.mybatis.mybatis.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
