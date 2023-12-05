@@ -30,11 +30,20 @@
                 <version>${Apache.commons.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${org.apache.commons.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${com.alibaba.fastjson.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
             <dependency>
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis</artifactId>
@@ -47,6 +56,8 @@
     <properties>
         <junit.version>4.13.2</junit.version>
         <Apache.commons.version>3.2.2</Apache.commons.version>
+        <org.apache.commons.version>4.4</org.apache.commons.version>
+        <commons-lang3.version>4.4</commons-lang3.version>
         <com.alibaba.fastjson.version>1.2.83</com.alibaba.fastjson.version>
         <org.mybatis.mybatis.version>3.4.6</org.mybatis.mybatis.version>
         <maven.compiler.source>8</maven.compiler.source>
