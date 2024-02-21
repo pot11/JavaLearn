@@ -1,4 +1,4 @@
-package p1;
+package Singleton;
 
 /**
  * @Description: 饿汉式（立即加载）

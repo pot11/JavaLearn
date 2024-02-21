@@ -15,6 +15,7 @@
         <module>DataStructures</module>
         <module>DataStructuresPractice</module>
         <module>SpringLearn</module>
+        <module>DesignPatternLearn</module>
     </modules>
 
     <dependencyManagement>
