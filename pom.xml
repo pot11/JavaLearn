@@ -61,8 +61,8 @@
         <commons-lang3.version>4.4</commons-lang3.version>
         <com.alibaba.fastjson.version>1.2.83</com.alibaba.fastjson.version>
         <org.mybatis.mybatis.version>3.4.6</org.mybatis.mybatis.version>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
 </project>
