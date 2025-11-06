@@ -1,4 +1,4 @@
-package com.example.springbootlearn;
+package com.example.springbootlearn.xxlJob;
 
 import com.xxl.job.core.handler.annotation.XxlJob;
 import com.xxl.job.core.log.XxlJobFileAppender;
