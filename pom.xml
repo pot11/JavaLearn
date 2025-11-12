@@ -16,6 +16,7 @@
         <module>DataStructuresPractice</module>
         <module>SpringLearn</module>
         <module>DesignPatternLearn</module>
+        <module>SpringbootLearn/Payroll</module>
     </modules>
 
     <dependencyManagement>

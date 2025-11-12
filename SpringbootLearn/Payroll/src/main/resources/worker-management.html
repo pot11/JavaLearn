@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工人工资管理系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container { max-width: 1200px; }
+        .card { margin-bottom: 20px; }
+        .table-responsive { max-height: 500px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h2 class="mb-4">工人工资管理系统</h2>
+
+        <!-- 导航标签 -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="worker-tab" data-bs-toggle="tab"
+                        data-bs-target="#worker" type="button" role="tab">工人管理</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="salary-tab" data-bs-toggle="tab"
+                        data-bs-target="#salary" type="button" role="tab">工资生成</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="records-tab" data-bs-toggle="tab"
+                        data-bs-target="#records" type="button" role="tab">工资记录</button>
+            </li>
+        </ul>
+
+        <!-- 标签内容 -->
+        <div class="tab-content" id="myTabContent">
+            <!-- 工人管理标签页 -->
+            <div class="tab-pane fade show active" id="worker" role="tabpanel">
+                <div class="card mt-3">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>工人信息管理</span>
+                        <button class="btn btn-primary btn-sm" onclick="showAddWorkerModal()">添加工人</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <input type="text" id="searchWorker" class="form-control"
+                                       placeholder="搜索工人姓名" onkeyup="searchWorkers()">
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>姓名</th>
+                                        <th>手机号</th>
+                                        <th>身份证号</th>
+                                        <th>银行卡号</th>
+                                        <th>银行品牌</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="workerTableBody">
+                                    <!-- 工人数据将通过JavaScript动态加载 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 工资生成标签页 -->
+            <div class="tab-pane fade" id="salary" role="tabpanel">
+                <div class="card mt-3">
+                    <div class="card-header">生成工资表</div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <select id="workerSelect" class="form-select" onchange="loadWorkerInfo()">
+                                    <option value="">选择工人</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="number" id="workHours" class="form-control" placeholder="工时" step="0.5">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="number" id="hourlyRate" class="form-control" value="50.00" step="0.01" placeholder="时薪">
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-success" onclick="quickGenerateSalary()">快速生成工资</button>
+                            </div>
+                        </div>
+
+                        <!-- 工人信息预览 -->
+                        <div id="workerInfo" class="alert alert-info" style="display: none;">
+                            <div class="row">
+                                <div class="col-md-3"><strong>手机号:</strong> <span id="infoPhone"></span></div>
+                                <div class="col-md-4"><strong>身份证:</strong> <span id="infoIdCard"></span></div>
+                                <div class="col-md-3"><strong>银行卡:</strong> <span id="infoBankCard"></span></div>
+                                <div class="col-md-2"><strong>银行:</strong> <span id="infoBankBrand"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 工资记录标签页 -->
+            <div class="tab-pane fade" id="records" role="tabpanel">
+                <div class="card mt-3">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>工资记录</span>
+                        <div>
+                            <input type="date" id="salaryDate" class="form-control"
+                                   onchange="loadSalaryRecords()">
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>姓名</th>
+                                        <th>手机号</th>
+                                        <th>工时</th>
+                                        <th>时薪</th>
+                                        <th>总工资</th>
+                                        <th>发薪日期</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="salaryTableBody">
+                                    <!-- 工资记录数据将通过JavaScript动态加载 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加工人模态框 -->
+    <div class="modal fade" id="addWorkerModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">添加工人</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="workerForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">姓名</label>
+                                <input type="text" class="form-control" name="name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">手机号</label>
+                                <input type="text" class="form-control" name="phone">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">身份证号</label>
+                                <input type="text" class="form-control" name="idCard">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">银行卡号</label>
+                                <input type="text" class="form-control" name="bankCard">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">银行品牌</label>
+                                <input type="text" class="form-control" name="bankBrand">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="saveWorker()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const API_BASE = 'http://localhost:8080/api';
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            loadWorkers();
+            loadWorkerSelect();
+            loadSalaryRecords();
+
+            // 设置默认日期为今天
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('salaryDate').value = today;
+        });
+
+        // 加载工人列表
+        async function loadWorkers() {
+            try {
+                const response = await fetch(`${API_BASE}/worker/list`);
+                const result = await response.json();
+
+                if (result.code === 200) {
+                    renderWorkerTable(result.data);
+                } else {
+                    alert('加载工人列表失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('加载工人列表失败');
+            }
+        }
+
+        // 渲染工人表格
+        function renderWorkerTable(workers) {
+            const tbody = document.getElementById('workerTableBody');
+            tbody.innerHTML = '';
+
+            workers.forEach(worker => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${worker.name}</td>
+                    <td>${worker.phone || ''}</td>
+                    <td>${worker.idCard || ''}</td>
+                    <td>${worker.bankCard || ''}</td>
+                    <td>${worker.bankBrand || ''}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" onclick="editWorker(${worker.id})">编辑</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteWorker(${worker.id})">删除</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // 搜索工人
+        async function searchWorkers() {
+            const keyword = document.getElementById('searchWorker').value;
+            if (!keyword) {
+                loadWorkers();
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/worker/search?name=${encodeURIComponent(keyword)}`);
+                const result = await response.json();
+
+                if (result.code === 200) {
+                    renderWorkerTable(result.data);
+                } else {
+                    alert('搜索失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('搜索失败');
+            }
+        }
+
+        // 加载工人下拉选择框
+        async function loadWorkerSelect() {
+            try {
+                const response = await fetch(`${API_BASE}/worker/list`);
+                const result = await response.json();
+
+                if (result.code === 200) {
+                    const select = document.getElementById('workerSelect');
+                    select.innerHTML = '<option value="">选择工人</option>';
+
+                    result.data.forEach(worker => {
+                        const option = document.createElement('option');
+                        option.value = worker.id;
+                        option.textContent = worker.name;
+                        select.appendChild(option);
+                    });
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // 加载工人信息
+        async function loadWorkerInfo() {
+            const workerId = document.getElementById('workerSelect').value;
+            if (!workerId) {
+                document.getElementById('workerInfo').style.display = 'none';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/worker/${workerId}`);
+                const result = await response.json();
+
+                if (result.code === 200) {
+                    const worker = result.data;
+                    document.getElementById('infoPhone').textContent = worker.phone || '';
+                    document.getElementById('infoIdCard').textContent = worker.idCard || '';
+                    document.getElementById('infoBankCard').textContent = worker.bankCard || '';
+                    document.getElementById('infoBankBrand').textContent = worker.bankBrand || '';
+                    document.getElementById('workerInfo').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // 快速生成工资
+        async function quickGenerateSalary() {
+            const workerId = document.getElementById('workerSelect').value;
+            const workHours = document.getElementById('workHours').value;
+
+            if (!workerId || !workHours) {
+                alert('请选择工人并填写工时');
+                return;
+            }
+
+            try {
+                const response = await fetch(
+                    `${API_BASE}/salary/quick-generate?workerId=${workerId}&workHours=${workHours}`,
+                    { method: 'POST' }
+                );
+                const result = await response.json();
+
+                if (result.code === 200) {
+                    alert('工资记录生成成功！');
+                    document.getElementById('workHours').value = '';
+                    // 切换到工资记录标签页
+                    document.getElementById('records-tab').click();
+                    loadSalaryRecords();
+                } else {
+                    alert('生成失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('生成失败');
+            }
+        }
+
+        // 加载工资记录
+        async function loadSalaryRecords() {
+            const salaryDate = document.getElementById('salaryDate').value;
+
+            try {
+                const response = await fetch(`${API_BASE}/salary/list?salaryDate=${salaryDate}`);
+                const result = await response.json();
+
+                if (result.code === 200) {
+                    renderSalaryTable(result.data);
+                } else {
+                    alert('加载工资记录失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('加载工资记录失败');
+            }
+        }
+
+        // 渲染工资表格
+        function renderSalaryTable(records) {
+            const tbody = document.getElementById('salaryTableBody');
+            tbody.innerHTML = '';
+
+            records.forEach(record => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${record.workerName}</td>
+                    <td>${record.phone || ''}</td>
+                    <td>${record.workHours}</td>
+                    <td>${record.hourlyRate}</td>
+                    <td>${record.totalSalary}</td>
+                    <td>${record.salaryDate}</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="deleteSalaryRecord(${record.id})">删除</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // 显示添加工人模态框
+        function showAddWorkerModal() {
+            document.getElementById('workerForm').reset();
+            new bootstrap.Modal(document.getElementById('addWorkerModal')).show();
+        }
+
+        // 保存工人
+        async function saveWorker() {
+            const form = document.getElementById('workerForm');
+            const formData = new FormData(form);
+            const workerData = {
+                name: formData.get('name'),
+                phone: formData.get('phone'),
+                idCard: formData.get('idCard'),
+                bankCard: formData.get('bankCard'),
+                bankBrand: formData.get('bankBrand')
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/worker/add`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(workerData)
+                });
+
+                const result = await response.json();
+
+                if (result.code === 200) {
+                    alert('添加工人成功');
+                    bootstrap.Modal.getInstance(document.getElementById('addWorkerModal')).hide();
+                    loadWorkers();
+                    loadWorkerSelect();
+                } else {
+                    alert('添加工人失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('添加工人失败');
+            }
+        }
+
+        // 删除工人
+        async function deleteWorker(id) {
+            if (!confirm('确定要删除这个工人吗？')) return;
+
+            try {
+                const response = await fetch(`${API_BASE}/worker/delete/${id}`, {
+                    method: 'DELETE'
+                });
+
+                const result = await response.json();
+
+                if (result.code === 200) {
+                    alert('删除工人成功');
+                    loadWorkers();
+                    loadWorkerSelect();
+                } else {
+                    alert('删除失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('删除失败');
+            }
+        }
+
+        // 删除工资记录
+        async function deleteSalaryRecord(id) {
+            if (!confirm('确定要删除这个工资记录吗？')) return;
+
+            try {
+                const response = await fetch(`${API_BASE}/salary/delete/${id}`, {
+                    method: 'DELETE'
+                });
+
+                const result = await response.json();
+
+                if (result.code === 200) {
+                    alert('删除工资记录成功');
+                    loadSalaryRecords();
+                } else {
+                    alert('删除失败: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('删除失败');
+            }
+        }
+    </script>
+</body>
+</html>
