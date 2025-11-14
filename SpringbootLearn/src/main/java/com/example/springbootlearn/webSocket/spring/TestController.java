@@ -1,4 +1,4 @@
-package com.example.workersalary.controller;
+package com.example.springbootlearn.webSocket.spring;
 
 import org.springframework.web.bind.annotation.*;
 
