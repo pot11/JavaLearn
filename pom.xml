@@ -51,7 +51,17 @@
                 <artifactId>mybatis</artifactId>
                 <version>${org.mybatis.mybatis.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${org.mybatis.mybatis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -64,6 +74,7 @@
         <org.mybatis.mybatis.version>3.4.6</org.mybatis.mybatis.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <lombok.version>1.18.36</lombok.version>
     </properties>
 
 </project>
