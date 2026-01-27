@@ -1,4 +1,4 @@
-package com.example.springbootlearn.webSocket.spring;
+package org.example.websocket.spring;
 
 import org.springframework.web.bind.annotation.*;
 

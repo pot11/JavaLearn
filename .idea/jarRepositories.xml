@@ -21,5 +21,15 @@
       <option name="name" value="JBoss Community repository" />
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Central Repository" />
+      <option name="url" value="https://maven.aliyun.com/repository/public" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="2527570-release-K0cZVh" />
+      <option name="name" value="2527570-release-K0cZVh" />
+      <option name="url" value="https://packages.aliyun.com/67e242bc8571f8159f9a9d0e/maven/2527570-release-k0czvh" />
+    </remote-repository>
   </component>
 </project>

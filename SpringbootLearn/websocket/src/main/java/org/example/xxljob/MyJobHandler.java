@@ -1,12 +1,6 @@
-package com.example.springbootlearn.xxlJob;
+package org.example.xxljob;
 
-import com.xxl.job.core.handler.annotation.XxlJob;
-import com.xxl.job.core.log.XxlJobFileAppender;
-import org.springframework.stereotype.Component;
-
-@Component
 public class MyJobHandler {
-
     @XxlJob("demoJobHandler")
     public void execute() throws Exception {
         XxlJobFileAppender.appendLog("text.txt","XXL-JOB, Hello World.");

@@ -1,13 +1,13 @@
-package com.example.springbootlearn;
+package org.example.websocket;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringbootLearnApplication {
+public class WebsocketApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringbootLearnApplication.class, args);
+        SpringApplication.run(WebsocketApplication.class, args);
     }
 
 }
